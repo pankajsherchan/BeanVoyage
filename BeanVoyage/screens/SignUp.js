@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-nati
 import { LinearGradient } from 'expo';
 import { f, auth, database } from '../config/config';
 
+
 const { width: WIDTH } = Dimensions.get('window');
 export default class SignUp extends React.Component {
 
@@ -26,8 +27,8 @@ export default class SignUp extends React.Component {
             .catch((error) => console.log(error));
     }
 
-    async loginWithFacebook = () => {
-        const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
+    loginWithFacebook = () => {
+        const { type, token } = Expo.Facebook.logInWithReadPermissionsAsync(
             '1110137379193752', // APP_ID
             {
                 permissions: ['email', 'public_profile']
@@ -67,6 +68,7 @@ export default class SignUp extends React.Component {
 
                 {/* Add a logout Button 
                 Copy the logout functionality from Login.js */}
+               
             </View>
         );
     }
@@ -75,7 +77,7 @@ export default class SignUp extends React.Component {
 const styles = StyleSheet.create({
 
     button: {
-        fontFamily: 'Gill Sans',
+       // fontFamily: 'Gill Sans',
         width: WIDTH - 80,
         height: 40,
         borderRadius: 15,
