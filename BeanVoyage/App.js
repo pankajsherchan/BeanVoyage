@@ -1,25 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import SignUp from './screens/SignUp';
+import Navigation from './navigation/index';
 
 const { width: WIDTH } = Dimensions.get('window')
 
 export default class App extends React.Component {
   render() {
     return (
-      // </ImageBackground>
-      //<ImageBackground source={logo} styles={styles.backgroundContainer}> 
-      <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={(require('./assets/logo.png'))}
-          />
-
-          <SignUp />
-
-        </View>
-      </View>
+    <View style={styles.container}>
+        <Navigation />
+    </View>
     );
   }
 }
