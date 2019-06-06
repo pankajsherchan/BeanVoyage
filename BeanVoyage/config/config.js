@@ -13,6 +13,10 @@ const config = {
 // Initialize Firebase
 firebase.initializeApp(config);
 
+export const fbConfigs = {
+    APP_ID: '1110137379193752'
+}
+
 export const f = firebase;
 export const database = firebase.database();
 export const auth = firebase.auth();

@@ -1,55 +1,109 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native';
 import Navigation from './navigation/index';
-import { f, auth } from './config/config';
+import { Asset, AppLoading, LinearGradient } from 'expo';
+import { f, auth, database } from './config/config';
 import SignUpScreen from './screens/SignUp';
-//import console = require('console');
+
 
 const { width: WIDTH } = Dimensions.get('window')
+
+const images = [
+  require('./assets/logo.png')
+]
 
 export default class App extends Component {
 
   state = {
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    isLoadingComplete: false
   };
 
-  // constructor(props){
-  //   super(props);
-  // }
-
-  componentDidMount(){
-    f.auth().onAuthStateChanged( (user) => {
+  componentDidMount() {
+    f.auth().onAuthStateChanged((user) => {
+      console.log('I am inside component did mount')
       if (user) {
-         this.setState({
-            isUserLoggedIn: true
-          });
+        this.setState({
+          isUserLoggedIn: true
+        });
       }
+
+      this.setState({
+        isLoadingComplete: true
+      });
     });
   }
 
-  render() {
+  handleResourceAsync = async () => {
+    const cacheImages = images.map(image => {
+      return Asset.fromModule(image).downloadAsync();
+    });
 
-    console.log("2",this.state.isUserLoggedIn);
-  
-    if(!this.state.isUserLoggedIn){
-      return (
-        <View style={styles.container}>
-          <View style={styles.logoContainer}>
+    return Promise.all(cacheImages);
+  }
+
+  updateUserStatus = (value) => {
+    console.log('User Login', value);
+    this.setState({
+      isUserLoggedIn: value
+    });
+  }
+
+  signOut = () => {
+    // auth.signOut()
+    //   .then(() => {
+    //     // Alert.alert(
+    //     //   'Success!',
+    //     //   'Logout sucessfully');
+    //   })
+    //   .catch((error) => {
+    //   });
+
+    this.setState({
+      isUserLoggedIn: false
+    })
+  }
+
+  render() {
+    if (this.state.isLoadingComplete) {
+      if (!this.state.isUserLoggedIn) {
+        return (
+          <View style={styles.container}>
+            <View style={styles.logoContainer}>
               <Image
                 style={styles.logo}
                 source={(require('./assets/logo.png'))}
               />
-              <SignUpScreen />
+              <SignUpScreen updateUserLoginStatus={this.updateUserStatus} />
+            </View>
           </View>
-        </View>
-      );
-    } 
+        );
+      }
+      else {
+        return (
+          <View style={styles.container}>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={() => this.signOut()}>
+                <LinearGradient colors={['#c6eaf4', '#2BDA8E', '#4c9f50']}
+                  style={styles.button}
+                  accessibilityLabel="Press">
+                  <Text style={styles.text}>Log Out</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+            <Navigation />
+          </View>
+        );
+      }
+    }
     else {
       return (
-        <View style={styles.container}>
-              <Navigation />
-        </View>
-      ); 
+        <AppLoading
+          startAsync={this.handleResourcesAsync}
+          onError={error => console.warn(error)}
+          onFinish={() => this.setState({ isLoadingComplete: true })}
+        />
+      )
     }
   }
 }
@@ -68,7 +122,6 @@ const styles = StyleSheet.create({
   },
 
   logoContainer: {
-
     alignItems: 'center',
     flexGrow: 1,
     justifyContent: 'center'
@@ -79,7 +132,11 @@ const styles = StyleSheet.create({
     height: 250,
     marginBottom: 40,
   },
-
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10
+  },
   button: {
     fontFamily: 'Gill Sans',
     width: WIDTH - 80,
