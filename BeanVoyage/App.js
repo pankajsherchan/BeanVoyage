@@ -1,17 +1,56 @@
-import React from 'react';
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
-import SignUp from './screens/SignUp';
+import React, { Component } from 'react';
+import { StyleSheet, View, Image, Dimensions, Text } from 'react-native';
 import Navigation from './navigation/index';
+import { f, auth } from './config/config';
+import SignUpScreen from './screens/SignUp';
+//import console = require('console');
 
 const { width: WIDTH } = Dimensions.get('window')
 
-export default class App extends React.Component {
+export default class App extends Component {
+
+  state = {
+    isUserLoggedIn: false
+  };
+
+  // constructor(props){
+  //   super(props);
+  // }
+
+  componentDidMount(){
+    f.auth().onAuthStateChanged( (user) => {
+      if (user) {
+         this.setState({
+            isUserLoggedIn: true
+          });
+      }
+    });
+  }
+
   render() {
-    return (
-    <View style={styles.container}>
-        <Navigation />
-    </View>
-    );
+
+    console.log("2",this.state.isUserLoggedIn);
+  
+    if(!this.state.isUserLoggedIn){
+      return (
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={(require('./assets/logo.png'))}
+              />
+              <SignUpScreen />
+          </View>
+        </View>
+      );
+    } 
+    else {
+      return (
+        <View style={styles.container}>
+              <Navigation />
+        </View>
+      ); 
+    }
   }
 }
 
@@ -27,13 +66,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
   logoContainer: {
 
     alignItems: 'center',
     flexGrow: 1,
-    justifyContent: 'center',
-
+    justifyContent: 'center'
   },
+
   logo: {
     width: 265,
     height: 250,
@@ -47,12 +87,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 30,
-
-
-
-
+    marginTop: 30
   },
+
   text: {
     backgroundColor: 'transparent',
     fontSize: 15,
