@@ -1,12 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { f, auth, database } from '../config/config';
 
-
-const { width: WIDTH } = Dimensions.get('window');
-export default class SignUp extends React.Component {
-
+export default class Login extends Component {
     constructor(props) {
         super(props);
 
@@ -21,14 +17,8 @@ export default class SignUp extends React.Component {
         })
     }
 
-    registerUser = (email, password) => {
-        auth.createUserWithEmailAndPassword(email, password)
-            .then((user) => console.log(email, password, user))
-            .catch((error) => console.log(error));
-    }
-
-    loginWithFacebook = () => {
-        const { type, token } = Expo.Facebook.logInWithReadPermissionsAsync(
+    async loginWithFacebook() {
+        const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
             '1110137379193752', // APP_ID
             {
                 permissions: ['email', 'public_profile']
@@ -43,52 +33,42 @@ export default class SignUp extends React.Component {
         }
     }
 
+    registerUser = (email, password) => {
+        console.log(email, password);
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((user) => console.log(email, password, user))
+            .catch((error) => console.log(error));
+    }
+
+    signOut = () => {
+        auth.signOut()
+            .then(() => {
+                alert('Logged out');
+            })
+            .catch((error) => {
+                alert('error');
+            });
+    }
+
     render() {
         return (
             <View>
+                <TouchableHighlight style={{ backgroundColor: 'green', margin: 10 }} onPress={() => this.registerUser('test@test.com', 'FakePassword')}>
+                    <Text style={{ color: 'white' }}> SignUpWithEmail </Text>
+                </TouchableHighlight>
 
-                {/* // add email , password 
-                // bind with state variable 
-                // cause state variable has to be passed during user registration */}
+                <TouchableHighlight style={{ backgroundColor: 'green', margin: 10 }} onPress={() => this.loginWithFacebook()}>
+                    <Text style={{ color: 'white' }}> LoginWithFacebook </Text>
+                </TouchableHighlight>
 
-                <TouchableOpacity onPress={() => this.registerUser('emailtest@gmail.com', 'PasswordTest')}>
-                    <LinearGradient colors={['#0AC4BA', '#2BDA8E', '#4c9f50']}
-                        style={styles.button}
-                        accessibilityLabel="Press">
-                        <Text style={styles.text}>Sign up    </Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.loginWithFacebook()}>
-                    <LinearGradient colors={['#c6eaf4', '#2BDA8E', '#4c9f50']}
-                        style={styles.button}
-                        accessibilityLabel="Press">
-                        <Text style={styles.text}>Connect with Facebook   </Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-
-                {/* Add a logout Button 
-                Copy the logout functionality from Login.js */}
-               
+                <TouchableHighlight style={{ backgroundColor: 'green', margin: 10 }} onPress={() => this.signOut()}>
+                    <Text style={{ color: 'white' }}> SignOut </Text>
+                </TouchableHighlight>
             </View>
-        );
+        )
     }
 }
 
 const styles = StyleSheet.create({
-
-    button: {
-       // fontFamily: 'Gill Sans',
-        width: WIDTH - 80,
-        height: 40,
-        borderRadius: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30
-    },
-    text: {
-        backgroundColor: 'transparent',
-        fontSize: 15,
-        color: '#fff',
-    }
-
+    
 });
