@@ -3,21 +3,15 @@ import { Image, View, Text, StyleSheet } from "react-native";
 import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
 
 // import Login from '../screens/LogIn';
-import SignUpScreen from '../screens/SignUp';
+
 //import { theme } from '../constants';
 
-class mySignUpScreen extends React.Component{
-    render(){
+class Tab1screen extends React.Component{
+    render() {
         return(
-            <View style={styles.container}>
-                <View style={styles.logoContainer}>
-                    <Image
-                        style={styles.logo}
-                        source={(require('../assets/logo.png'))}
-                    />
-                     <SignUpScreen />
-                 </View>
-            </View>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Tab1</Text>
+          </View>
         );
     }
 }
@@ -42,7 +36,7 @@ class mySignUpScreen extends React.Component{
 
 const screens = createBottomTabNavigator({
    
-    SignUp: { screen: mySignUpScreen },
+    Tab1: { screen: Tab1screen },
     Tab2: { screen: Tab2screen },
     Tab3: { screen: Tab3screen }
 });
