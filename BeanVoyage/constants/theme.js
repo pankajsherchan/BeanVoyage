@@ -3,7 +3,8 @@ const colors = {
   cement: "#80715D",                  //25%
   outrageousOrange: "#EB592A",        //15%
   lunarGreen: "#494D41",              //5%
-  porshe: "#DA9C5D"                   //5%
+  porshe: "#DA9C5D"  ,
+  lineargradient: ['#c6eaf4', '#2BDA8E', '#4c9f50' ]                //5%
 }
 
 const sizes = {

@@ -1,22 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput,  } from 'react-native';
+import {FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import { f, auth, database, fbConfigs } from '../config/config';
-import Icon from 'react-native-vector-icons/Ionicons'
+
+
+//import themes from './constants/theme'
 const { width: WIDTH } = Dimensions.get('window');
+
+
 export default class SignUp extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            loggedin: false
+            loggedin: false,
+            email: '',
+            password:'',
+            errorMessage:null,
+           
         }
+        //handlesignup method
         var that = this;
         f.auth().onAuthStateChanged(function (user) {
             if (user) {
 
                 that.setState({
-                    loggedin: true
+                    loggedin: true,
+                    email: this.state.email,
+                    password:this.state.password,
+                   
                 });
                 console.log('Logged in');
 
@@ -32,14 +45,35 @@ export default class SignUp extends React.Component {
 
 
     registerUser = (email, password) => {
+        
         console.log(email, password);
+      
         auth.createUserWithEmailAndPassword(email, password)
-            .then((user) => {
+         .then((user) => {
+               
                 console.log(email, password, user);
                 this.props.updateUserLoginStatus(true);
+                this.props.navigation.navigate('LogIn')
+                
             })
-            .catch((error) => console.log(error));
-    }
+           .catch((error) => {
+               let errorCode=error.code
+               let errorMessage= error.message
+               if(errorCode == 'auth/invalid-email'){
+                   this.onValidation.bind(this)('Please enter the valid email address')
+               }
+               else if(errorCode =='auth/email-already-in-use'){
+                this.onValidation.bind(this)('Sorry, the user already exists.')
+               }
+               else{
+               this.onValidation.bind(this)(errorMessage)
+               }
+     })
+            }
+    onValidation(errorMessage) {
+        this.setState({ error: errorMessage, loading: false })
+      }
+    
 
     loginWithFacebook = () => {
         const { type, token } = Expo.Facebook.logInWithReadPermissionsAsync(
@@ -61,37 +95,71 @@ export default class SignUp extends React.Component {
                 });
         }
     }
+   
 
     render() {
         return (
             <View>
                 <View style={styles.inputContainer}>
-                    <Icon name={'ion-ios-person-outline'} size={28} color={'rgba(255,0,0,0.3)'} style={styles.inputIcon}></Icon>
-                    <TextInput onChangeText={(text) => this.setState({ email: text })} value={this.state.email}
-                        style={styles.inputtext} placeholder={'Email'} placeholderTextColor={'#173F5F'} UnderlineColorAndroid='transparent' />
+                
+                    <FontAwesome 
+                    size={28}
+                     color='#173F5F'  
+                     name="user"
+                     style={styles.inputIcon}
+                     />
+                    <TextInput
+                    
+                     style={styles.inputtext} 
+                     placeholder={'Email'}
+                     placeholderTextColor={'#173F5F'}
+                     onChangeText={email => this.setState({ email})} 
+                     value={this.state.email}
+                     UnderlineColorAndroid='transparent' />
+                     
                 </View>
                 <View stye={styles.inputContainer} >
-                    <TextInput onChangeText={(text) => this.setState({ password: text })}
+                <FontAwesome 
+                    size={28}
+                     color='#173F5F'  
+                     name="lock"
+                     style={styles.inputIcon}
+                     />
+                    <TextInput 
+                        style={styles.inputtext}
+                        placeholder={'Password'}
+                        secureTextEntry={true}
+                        placeholderTextColor={'#173F5F'} 
+                        UnderlineColorAndroid='transparent' 
                         value={this.state.password}
-                        style={styles.inputtext} placeholder={'Password'}
-                        secureTextEntry={true} placeholderTextColor={'#173F5F'} UnderlineColorAndroid='transparent' />
+                        onChangeText={password => this.setState({ password })}/>
+                        
                 </View >
                 <View style={styles.buttonContainer}>
+                <Text style={{color:'red'}}>{this.state.error}</Text>
                     <TouchableOpacity onPress={() => this.registerUser(this.state.email, this.state.password)}>
                         <LinearGradient colors={['#c6eaf4', '#2BDA8E', '#4c9f50']}
                             style={styles.button}
                             accessibilityLabel="Press">
-                            <Text style={styles.text}>Sign up</Text>
+                                <Text style={styles.text}>Sign Up</Text>
                         </LinearGradient>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.buttonContainer}>
+                <FontAwesome 
+                    size={28}
+                     color='#173F5F'  
+                     name="facebook-official"
+                     style={styles.inputIcon}
+                     />
                     <TouchableOpacity onPress={() => this.loginWithFacebook()}>
                         <LinearGradient colors={['#c6eaf4', '#2BDA8E', '#4c9f50']}
                             style={styles.button}
                             accessibilityLabel="Press">
                             <Text style={styles.text}>Connect with Facebook   </Text>
+
                         </LinearGradient>
+                        
                     </TouchableOpacity>
                 </View>
             </View>
@@ -103,7 +171,13 @@ const styles = StyleSheet.create({
     inputIcon: {
         position: 'absolute',
         top: 10,
-        left: 37
+        
+        paddingLeft: 40,
+    },
+    btneye:{
+        position: 'absolute',
+        top: 7,
+        paddingLeft: 250,
     },
     button: {
         // fontFamily: 'Roboto',
@@ -131,11 +205,11 @@ const styles = StyleSheet.create({
     inputtext: {
         width: WIDTH - 80,
         height: 40,
-        borderRadius: 50,
+        borderRadius: 20,
         paddingLeft: 50,
-        backgroundColor: '#c7d1e5',
+        backgroundColor: 'rgba(0,0,0,0.35)',
         color: '#030916',
-        borderRadius: 10,
+       
         marginHorizontal: 25
     },
 

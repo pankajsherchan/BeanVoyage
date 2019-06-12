@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'rea
 import Navigation from './navigation/index';
 import { Asset, AppLoading, LinearGradient } from 'expo';
 import { f, auth, database } from './config/config';
+import theme from './constants/theme'
 import SignUpScreen from './screens/SignUp';
 
 

@@ -10,6 +10,8 @@ class Tab1screen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        
+    
         <Text>Tab1</Text>
       </View>
     );
