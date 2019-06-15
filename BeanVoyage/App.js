@@ -83,7 +83,7 @@ export default class App extends Component {
       else {
         return (
           <View style={styles.container}>
-            <View style={styles.buttonContainer}>
+            {/* <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={() => this.signOut()}>
                 <LinearGradient colors={['#c6eaf4', '#2BDA8E', '#4c9f50']}
                   style={styles.button}
@@ -91,7 +91,7 @@ export default class App extends Component {
                   <Text style={styles.text}>Log Out</Text>
                 </LinearGradient>
               </TouchableOpacity>
-            </View>
+            </View> */}
             <Navigation />
           </View>
         );
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   button: {
-    fontFamily: 'Gill Sans',
+   // fontFamily: 'Gill Sans',
     width: WIDTH - 80,
     height: 40,
     borderRadius: 15,

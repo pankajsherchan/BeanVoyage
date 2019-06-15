@@ -1,31 +1,38 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, Button, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import { LinearGradient } from 'expo';
 import { f, auth, database } from '../config/config';
 const { width: WIDTH } = Dimensions.get('window');
+
+import CameraScreen from '../screens/CameraScreen';
 
 class Tab1screen extends React.Component {
 
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        
-    
+ 
         <Text>Tab1</Text>
       </View>
     );
   }
 }
+
 class Tab2screen extends React.Component {
+  openCamera = () => {
+    this.props.navigation.navigate("CameraScreen");
+  };
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Tab2</Text>
+        <Button title="Take a picture" onPress={this.openCamera}/>
       </View>
     );
   }
 }
+
 class Tab3screen extends React.Component {
   render() {
     return (
@@ -39,7 +46,7 @@ class Tab3screen extends React.Component {
 const screens = createBottomTabNavigator({
 
   Tab1: { screen: Tab1screen },
-  Tab2: { screen: Tab2screen },
+  Tab2: { screen: CameraScreen },
   Tab3: { screen: Tab3screen }
 });
 
