@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity,  } from 'react-native';
 import Navigation from './navigation/index';
 import { Asset, AppLoading, LinearGradient } from 'expo';
 import { f, auth, database } from './config/config';

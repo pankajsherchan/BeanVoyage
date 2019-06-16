@@ -3,23 +3,17 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput,  } fro
 import {FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import { f, auth, database, fbConfigs } from '../config/config';
-
-
 //import themes from './constants/theme'
 const { width: WIDTH } = Dimensions.get('window');
-
-
 export default class SignUp extends React.Component {
-
-    constructor(props) {
+constructor(props) {
         super(props);
         this.state = {
             loggedin: false,
             email: '',
             password:'',
             errorMessage:null,
-           
-        }
+           }
         //handlesignup method
         var that = this;
         f.auth().onAuthStateChanged(function (user) {
@@ -32,7 +26,6 @@ export default class SignUp extends React.Component {
                    
                 });
                 console.log('Logged in');
-
             }
             else {
                 that.setState({
@@ -42,8 +35,6 @@ export default class SignUp extends React.Component {
             }
         })
     }
-
-
     registerUser = (email, password) => {
         
         console.log(email, password);
@@ -73,8 +64,6 @@ export default class SignUp extends React.Component {
     onValidation(errorMessage) {
         this.setState({ error: errorMessage, loading: false })
       }
-    
-
     loginWithFacebook = () => {
         const { type, token } = Expo.Facebook.logInWithReadPermissionsAsync(
             // fbConfigs.APP_ID,
@@ -83,8 +72,7 @@ export default class SignUp extends React.Component {
                 permissions: ['email', 'public_profile']
             }
         );
-
-        if (type === 'success') {
+     if (type === 'success') {
             const credentials = f.auth.FacebookAuthProvider.credential(token);
             f.auth().signInWithCredential(credentials)
                 .catch((error) => {
@@ -95,9 +83,7 @@ export default class SignUp extends React.Component {
                 });
         }
     }
-   
-
-    render() {
+   render() {
         return (
             <View>
                 <View style={styles.inputContainer}>

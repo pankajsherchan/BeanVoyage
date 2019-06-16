@@ -1,13 +1,14 @@
 import firebase from 'firebase';
+import 'firebase/storage';
 
 const config = {
-    apiKey: "AIzaSyAVS7dtkchK6SjzDr0QcMWHuzcuu-_uT_U",
-    authDomain: "beanvoyage-fbd05.firebaseapp.com",
-    databaseURL: "https://beanvoyage-fbd05.firebaseio.com",
-    projectId: "beanvoyage-fbd05",
-    storageBucket: "beanvoyage-fbd05.appspot.com",
-    messagingSenderId: "282980160217",
-    appId: "1:282980160217:web:dc2f7f4dedb32817"
+    apiKey: "AIzaSyAjyrX8t_i9wNp-JnLyOf4iwjyrRRoxbxc",
+    authDomain: "beanvoyageproject.firebaseapp.com",
+    databaseURL: "https://beanvoyageproject.firebaseio.com",
+    projectId: "beanvoyageproject",
+    storageBucket: "beanvoyageproject.appspot.com",
+    messagingSenderId: "1040537095886",
+    appId: "1:1040537095886:web:c0af5a5f77742d01"
 };
 
 // Initialize Firebase
