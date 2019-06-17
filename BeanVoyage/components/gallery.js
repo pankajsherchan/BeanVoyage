@@ -3,10 +3,10 @@ import { View, Image, ScrollView } from 'react-native';
 
 import styles from './styles';
 
-export default ({captures=[]}) => (
-    <ScrollView 
+export default ({ captures = [] }) => (
+    <ScrollView
         horizontal={true}
-        style={[styles.bottomToolbar, styles.galleryContainer]} 
+        style={[styles.bottomToolbar, styles.galleryContainer]}
     >
         {captures.map(({ uri }) => (
             <View style={styles.galleryImageContainer} key={uri}>

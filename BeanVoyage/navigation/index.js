@@ -12,7 +12,7 @@ class Tab1screen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
- 
+
         <Text>Tab1</Text>
       </View>
     );
@@ -20,15 +20,23 @@ class Tab1screen extends React.Component {
 }
 
 class Tab2screen extends React.Component {
-  openCamera = () => {
-    this.props.navigation.navigate("CameraScreen");
+  state = {
+    isCameraOpened: false
   };
+
   render() {
+    const state = this.state;
+    console.log(this.state);
+
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Tab2</Text>
-        <Button title="Take a picture" onPress={this.openCamera}/>
-      </View>
+      <React.Fragment>
+        {
+          this.state.isCameraOpened
+            ? <CameraScreen />
+            :
+            <Button title="Take a picture" onPress={() => this.setState({ isCameraOpened: true })} />
+        }
+      </React.Fragment>
     );
   }
 }
@@ -46,7 +54,7 @@ class Tab3screen extends React.Component {
 const screens = createBottomTabNavigator({
 
   Tab1: { screen: Tab1screen },
-  Tab2: { screen: CameraScreen },
+  Tab2: { screen: Tab2screen },
   Tab3: { screen: Tab3screen }
 });
 
