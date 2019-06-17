@@ -6,8 +6,8 @@ import styles from '../components/styles';
 import Toolbar from '../components/toolbar';
 import Gallery from '../components/gallery';
 
-class CameraScreen extends Component{
-    
+class Camera extends Component {
+
     camera = null;
 
     state = {
@@ -18,16 +18,16 @@ class CameraScreen extends Component{
         hasCameraPermission: null
     };
 
-    setFlashMode = ( flashMode ) => this.setState({ flashMode });
-    setCameraType = ( cameraType ) => this.setState({ cameraType });
+    setFlashMode = (flashMode) => this.setState({ flashMode });
+    setCameraType = (cameraType) => this.setState({ cameraType });
     handleCaptureIn = () => this.setState({ capturing: true });
-    
+
     handleCaptureOut = () => {
         if (this.state.capturing)
             this.camera.stopRecording();
     };
 
-    handleShortCapture = async () =>{
+    handleShortCapture = async () => {
         const photoData = await this.camera.takePictureAsync();
         this.setState({
             capturing: false,
@@ -35,7 +35,7 @@ class CameraScreen extends Component{
         })
     };
 
-    handleLongCapture = async () =>{
+    handleLongCapture = async () => {
         const videoData = await this.camera.recordAsync();
         this.setState({
             capturing: false,
@@ -45,7 +45,7 @@ class CameraScreen extends Component{
 
 
 
-    async componentDidMount(){
+    async componentDidMount() {
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
         const hasCameraPermission = (camera.status === 'granted' && audio.status === 'granted');
@@ -56,26 +56,26 @@ class CameraScreen extends Component{
     render() {
         const { hasCameraPermission, flashMode, cameraType, capturing } = this.state;
 
-        if( hasCameraPermission === null ){
+        if (hasCameraPermission === null) {
             return <View />;
-        } else if ( hasCameraPermission === false ){
+        } else if (hasCameraPermission === false) {
             return <Text>Access to camera has been denied.</Text>
         }
 
-        return(
+        return (
             <React.Fragment>
                 <View>
-                    <Camera 
+                    <Camera
                         type={cameraType}
                         flashMode={flashMode}
                         style={styles.preview}
-                        ref={camera => this.camera = camera}    
+                        ref={camera => this.camera = camera}
                     />
                 </View>
 
-                {this.state.captures.length > 0 && <Gallery captures={this.state.captures}/>}
+                {this.state.captures.length > 0 && <Gallery captures={this.state.captures} />}
 
-                <Toolbar 
+                <Toolbar
                     capturing={capturing}
                     flashMode={flashMode}
                     cameraType={cameraType}
@@ -84,11 +84,11 @@ class CameraScreen extends Component{
                     onCaptureIn={this.handleCaptureIn}
                     onCaptureOut={this.handleCaptureOut}
                     onLongCapture={this.handleLongCapture}
-                    onShortCapture={this.handleShortCapture}    
+                    onShortCapture={this.handleShortCapture}
                 />
             </React.Fragment>
         )
     }
 }
 
-export default CameraScreen;
+export default Camera;

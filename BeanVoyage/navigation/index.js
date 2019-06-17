@@ -1,61 +1,15 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
-import { LinearGradient } from 'expo';
-import { f, auth, database } from '../config/config';
+import Marketing from '../screens/Marketing';
+import Learning from '../screens/Learning';
+import DataCollection from '../screens/DataCollection'
 const { width: WIDTH } = Dimensions.get('window');
 
-import CameraScreen from '../screens/CameraScreen';
-
-class Tab1screen extends React.Component {
-
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-        <Text>Tab1</Text>
-      </View>
-    );
-  }
-}
-
-class Tab2screen extends React.Component {
-  state = {
-    isCameraOpened: false
-  };
-
-  render() {
-    const state = this.state;
-    console.log(this.state);
-
-    return (
-      <React.Fragment>
-        {
-          this.state.isCameraOpened
-            ? <CameraScreen />
-            :
-            <Button title="Take a picture" onPress={() => this.setState({ isCameraOpened: true })} />
-        }
-      </React.Fragment>
-    );
-  }
-}
-
-class Tab3screen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Tab3</Text>
-      </View>
-    );
-  }
-}
-
 const screens = createBottomTabNavigator({
-
-  Tab1: { screen: Tab1screen },
-  Tab2: { screen: Tab2screen },
-  Tab3: { screen: Tab3screen }
+  Tab1: { screen: Learning },
+  Tab2: { screen: Marketing },
+  Tab3: { screen: DataCollection }
 });
 
 const styles = StyleSheet.create({
