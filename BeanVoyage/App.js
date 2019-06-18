@@ -12,15 +12,12 @@ const { width: WIDTH } = Dimensions.get('window')
 const images = [
   require('./assets/logo.png')
 ]
-
 export default class App extends Component {
-
-  state = {
+state = {
     isUserLoggedIn: false,
     isLoadingComplete: false
   };
-
-  componentDidMount() {
+componentDidMount() {
     f.auth().onAuthStateChanged((user) => {
       console.log('I am inside component did mount')
       if (user) {

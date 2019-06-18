@@ -1,42 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacityWithoutFeedback, Dimensions, } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacityWithoutFeedback, Dimensions,Button, TouchableOpacity } from "react-native";
 import { createAppContainer, createBottomTabNavigator,} from 'react-navigation';
 import { LinearGradient } from 'expo';
-import { f, auth, database,storageRef } from '../config/config';
+import { f, auth, database,storageRef,storage, } from '../config/config';
 const { width: WIDTH } = Dimensions.get('window');
-import Video from 'expo'
+import {Video} from 'expo'
 import VideoPlayer from 'expo-video-player'
 
-//import { url } from 'inspector';
 export default class Tab1 extends React.Component {
- 
-//first create a storage reference
-//storageRef = storage.refFromURL('gs://beanvoyageproject.appspot.com/videobeanvoyage.mp4')
-//sampleVideo = storageRef.getDownloadURL();
-
-handleDownload=() =>{
-  storage.refFromURL('gs://beanvoyageproject.appspot.com/videobeanvoyage.mp4').getDownloadURL().then(url=>{
-    console.log(url);
-  }).catch(error=>(console.log(error)))
-  ;
-  
+constructor(props){
+  super();
+  this.state={
+videoSource:undefined
+  }
 }
- render() {
-    return (
+handleDownload=()=>
+{
+  ref = storage.refFromURL('gs://beanvoyageproject.appspot.com')
+ ref.child('videos/videobeanvoyage.mp4').getDownloadURL().then((url) => {
+   console.log(url)})
+   .catch(error=>(console.log(error)));
+ }
+render() {
+  return (
       <View >
-        <VideoPlayer 
+        <VideoPlayer onLoadStart={this.handleDownload()}
          videoProps={{
           shouldPlay: true,
           resizeMode: 'contain',
           source: {
-            //uri: this.sampleVideo,
-            
-          },
+          uri:this.url
+         },
           repeat:false
       }}
         isPortrait={true}
         playFromPositionMillis={0}
-      />
+        />
       </View>
     );
   }

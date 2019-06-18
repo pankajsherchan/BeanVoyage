@@ -36,7 +36,6 @@ constructor(props) {
         })
     }
     registerUser = (email, password) => {
-        
         console.log(email, password);
       
         auth.createUserWithEmailAndPassword(email, password)
